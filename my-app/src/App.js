@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import Ninjas from './Ninjas'
-// import NewSong from './newSong'
-import YelpStars from './YelpStars'
-import 'font-awesome/css/font-awesome.min.css';
-import './YelpStars.css'
+import NewSong from './newSong'
+
 class App extends Component {
   state = {
     Ninjas : [
@@ -15,21 +13,33 @@ class App extends Component {
   }
   newSong = (ninja) => {
     ninja.id = Math.random();
-    //spread operator
     let ninjas = [...this.state.Ninjas, ninja]
     this.setState({
       Ninjas: ninjas
     })
+    console.log(ninjas)
   }
 
+  deleteSong = (id) => {
+      let ninjas = this.state.Ninjas.filter(ninjas => {return ninjas.id !== id})
+      this.setState({
+        Ninjas: ninjas
+      })
+  }
+  componentDidMount() {
+    console.log("Component Mounted!");
+  }
+  componentDidUpdate(prevProps,prevState) {
+    console.log("Component Updated!");
+    console.log(prevProps, prevState);
+  }
   render() {
     return (
       <div className="App">
         <h1>My First React App</h1>
         <p>Welcome</p>
-        <Ninjas Ninja={this.state.Ninjas}/>
-        {/* <NewSong newSong={this.newSong}/> */}
-        <YelpStars rating={this.state.rating}/>
+        <Ninjas deleteSong={this.deleteSong} Ninja={this.state.Ninjas}/>
+        <NewSong newSong={this.newSong}/>
       </div>
     );
   }
